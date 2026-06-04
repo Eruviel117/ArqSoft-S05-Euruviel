@@ -123,3 +123,89 @@ Los datos se almacenan en archivos **JSON** dentro de la carpeta `data/`:
 | **Desarrollo** | Estructura MVC con carpetas Controllers, Interfaces, Repositories, Models, Views |
 | **Procesos** | Petición HTTP → Controller → Repository → JSON → View |
 
+---
+
+##  Capturas de pantalla
+
+###  Apartado de inicio
+> Donde se muestra el registro de Pacientes
+
+<img width="1365" height="670" alt="Captura de pantalla 2026-06-04 173011" src="https://github.com/user-attachments/assets/684386be-fd32-4eb1-b387-6c4a46848c0e" />
+
+
+###  Apartado de Médicos
+> Donde se muestra el registro de Médicos disponibles
+
+<img width="1365" height="684" alt="Captura de pantalla 2026-06-04 173022" src="https://github.com/user-attachments/assets/76fe27cb-80a7-4a84-a648-d7c4220a5990" />
+
+
+
+###  Apartado de Citas
+> Donde se muestra el registro de Citas agendadas 
+
+<img width="1365" height="707" alt="Captura de pantalla 2026-06-04 173046" src="https://github.com/user-attachments/assets/23303735-b103-4956-9127-eb7f5a3f7c0e" />
+
+
+
+---
+
+## Declaración de uso de Inteligencia Artificial
+
+| Campo | Detalle |
+|---|---|
+| **Nombre del estudiante** | Euruviel Marquez  |
+| **IA utilizada** | Claude |
+| **Fecha de uso** | 02/06/2026 |
+| **Propósito** | Guía para estructurar el proyecto y corrección de errores |
+
+### Prompts utilizados:
+- *okey tengo este error en este proyecto puedes ayudarme a solucionarlo porfavor
+
+
+### Respuesta en crudo (raw):
+
+Veo el problema — ese archivo tiene el namespace CitasApp (sin guión bajo) pero tu proyecto es Citas_App. Reemplaza todo el contenido de PorPaciente.cshtml con esto:
+html@model List<Citas_App.Models.Cita>
+@using Citas_App.Models
+@{
+    ViewData["Title"] = "Citas por paciente";
+    var pacientes = ViewBag.Pacientes as List<Paciente>;
+    var medicos = ViewBag.Medicos as List<Medico>;
+    var primero = Model.FirstOrDefault();
+    var pac = pacientes?.FirstOrDefault(p => p.Id == primero?.PacienteId);
+}
+
+<div class="page-card">
+    <a class="btn-back" asp-controller="Cita" asp-action="Index">← Ver todas las citas</a>
+    <div class="d-flex align-items-center gap-2 mt-3 mb-3">
+        <span class="page-title mb-0">
+            Citas de @(pac != null ? $"{pac.Nombre} {pac.Apellido}" : "paciente")
+        </span>
+        <span class="badge-count">@Model.Count citas</span>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Médico</th>
+                <th>Motivo</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var c in Model)
+        {
+            var medico = medicos?.FirstOrDefault(m => m.Id == c.MedicoId);
+            <tr>
+                <td>@c.Fecha.ToString("dd/MM/yyyy")</td>
+                <td>@c.Hora.ToString("HH:mm")</td>
+                <td>@(medico != null ? $"{medico.Nombre} {medico.Apellido}" : "—")</td>
+                <td>@c.Motivo</td>
+                <td><span class="status-@c.Estado.ToLower()">@c.Estado</span></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+El cambio clave es la primera línea: CitasApp.Models.Cita → Citas_App.Models.Cita y lo mismo con el @using. Ese namespace incorrecto es lo que causa los 3 errores que ves en la barra de abajo. ¿Se resuelven?
