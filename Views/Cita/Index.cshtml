@@ -1,25 +1,55 @@
 ﻿@model List<Citas_App.Models.Cita>
 @using Citas_App.Models
 @{
+    ViewData["Title"] = "Citas";
     var pacientes = ViewBag.Pacientes as List<Paciente>;
     var medicos = ViewBag.Medicos as List<Medico>;
 }
-<h1>Agenda de citas</h1>
-<table border="1" cellpadding="8">
-    <tr><th>Fecha</th><th>Hora</th><th>Paciente</th><th>Médico</th><th>Motivo</th><th>Estado</th></tr>
-    @foreach (var c in Model)
-    {
-        var paciente = pacientes?.FirstOrDefault(p => p.Id == c.PacienteId);
-        var medico = medicos?.FirstOrDefault(m => m.Id == c.MedicoId);
-        <tr>
-            <td>@c.Fecha.ToString("dd/MM/yyyy")</td>
-            <td>@c.Hora.ToString("HH:mm")</td>
-            <td>@(paciente != null ? $"{paciente.Nombre} {paciente.Apellido}" : "—")</td>
-            <td>@(medico != null ? $"{medico.Nombre} {medico.Apellido}" : "—")</td>
-            <td>@c.Motivo</td>
-            <td>@c.Estado</td>
-        </tr>
-    }
-</table>
-<p>Citas pendientes: @Model.Count(c => c.Estado == "Pendiente")</p>
-<p>Citas confirmadas: @Model.Count(c => c.Estado == "Confirmada")</p>
+<div class="page-card">
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <span class="page-title mb-0">Agenda de citas</span>
+        <span class="badge-count">@Model.Count citas</span>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-4">
+            <div class="stat-card">
+                <div class="stat-num">@Model.Count</div>
+                <div class="stat-label">Total</div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="stat-card">
+                <div class="stat-num" style="color:#92400e">@Model.Count(c => c.Estado == "Pendiente")</div>
+                <div class="stat-label">Pendientes</div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="stat-card">
+                <div class="stat-num" style="color:#065f46">@Model.Count(c => c.Estado == "Confirmada")</div>
+                <div class="stat-label">Confirmadas</div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr><th>Fecha</th><th>Hora</th><th>Paciente</th><th>Médico</th><th>Motivo</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                var pac = pacientes?.FirstOrDefault(p => p.Id == c.PacienteId);
+                var med = medicos?.FirstOrDefault(m => m.Id == c.MedicoId);
+                <tr>
+                    <td>@c.Fecha.ToString("dd/MM/yyyy")</td>
+                    <td>@c.Hora.ToString("HH:mm")</td>
+                    <td>@(pac != null ? $"{pac.Nombre} {pac.Apellido}" : "—")</td>
+                    <td>@(med != null ? $"{med.Nombre} {med.Apellido}" : "—")</td>
+                    <td>@c.Motivo</td>
+                    <td><span class="status-@c.Estado.ToLower()">@c.Estado</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

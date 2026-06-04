@@ -1,25 +1,34 @@
 ﻿@model List<Citas_App.Models.Cita>
 @using Citas_App.Models
 @{
+    ViewData["Title"] = "Citas por paciente";
     var pacientes = ViewBag.Pacientes as List<Paciente>;
     var medicos = ViewBag.Medicos as List<Medico>;
     var primero = Model.FirstOrDefault();
-    var paciente = pacientes?.FirstOrDefault(p => p.Id == primero?.PacienteId);
+    var pac = pacientes?.FirstOrDefault(p => p.Id == primero?.PacienteId);
 }
-<h1>Citas de @(paciente != null ? $"{paciente.Nombre} {paciente.Apellido}" : "paciente")</h1>
-<table border="1" cellpadding="8">
-    <tr><th>Fecha</th><th>Hora</th><th>Médico</th><th>Motivo</th><th>Estado</th></tr>
-    @foreach (var c in Model)
-    {
-        var medico = medicos?.FirstOrDefault(m => m.Id == c.MedicoId);
-        <tr>
-            <td>@c.Fecha.ToString("dd/MM/yyyy")</td>
-            <td>@c.Hora.ToString("HH:mm")</td>
-            <td>@(medico != null ? $"{medico.Nombre} {medico.Apellido}" : "—")</td>
-            <td>@c.Motivo</td>
-            <td>@c.Estado</td>
-        </tr>
-    }
-</table>
-<br />
-<a asp-controller="Cita" asp-action="Index">← Ver todas las citas</a>
+<div class="page-card">
+    <a class="btn-ver" asp-controller="Cita" asp-action="Index">← Ver todas las citas</a>
+    <div class="d-flex align-items-center gap-2 mt-3 mb-3">
+        <span class="page-title mb-0">Citas de @(pac != null ? $"{pac.Nombre} {pac.Apellido}" : "paciente")</span>
+        <span class="badge-count">@Model.Count citas</span>
+    </div>
+    <table class="table">
+        <thead><tr><th>Fecha</th><th>Hora</th><th>Médico</th><th>Motivo</th><th>Estado</th></tr></thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                var med = medicos?.FirstOrDefault(m => m.Id == c.MedicoId);
+                <tr>
+                    <td>@c.Fecha.ToString("dd/MM/yyyy")</td>
+                    <td>@c.Hora.ToString("HH:mm")</td>
+                    <td>@(med != null ? $"{med.Nombre} {med.Apellido}" : "—")</td>
+                    <td>@c.Motivo</td>
+                    <td><span class="status-@c.Estado.ToLower()">@c.Estado</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

@@ -1,7 +1,35 @@
 ﻿@model Citas_App.Models.Paciente
-<h1>@Model.Nombre @Model.Apellido</h1>
-<p><strong>Email:</strong> @Model.Email</p>
-<p><strong>Teléfono:</strong> @Model.Telefono</p>
-<a asp-action="Index">← Volver a la lista</a>
-<br />
-<a asp-controller="Cita" asp-action="PorPaciente" asp-route-pacienteId="@Model.Id">Ver sus citas</a>
+@{
+    ViewData["Title"] = $"{Model.Nombre} {Model.Apellido}";
+}
+
+<div class="detail-card">
+    <a class="btn-back" asp-action="Index">← Volver a la lista</a>
+
+    <div class="detail-avatar mt-3">
+        @Model.Nombre[0]@Model.Apellido[0]
+    </div>
+
+    <div class="detail-name">@Model.Nombre @Model.Apellido</div>
+
+    <div class="detail-row">
+        <span class="detail-icon">✉️</span>
+        <span class="detail-label">Email</span>
+        <span class="detail-value">@Model.Email</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-icon">📞</span>
+        <span class="detail-label">Teléfono</span>
+        <span class="detail-value">@Model.Telefono</span>
+    </div>
+
+    <div class="detail-actions">
+        <a class="btn-action"
+           asp-controller="Cita"
+           asp-action="PorPaciente"
+           asp-route-pacienteId="@Model.Id">
+            Ver citas →
+        </a>
+        <a class="btn-back" asp-action="Index">← Volver</a>
+    </div>
+</div>

@@ -1,16 +1,24 @@
 ﻿@model List<Citas_App.Models.Paciente>
-<h1>Pacientes registrados</h1>
-<table border="1" cellpadding="8">
-    <tr><th>Nombre</th><th>Email</th><th>Teléfono</th><th></th></tr>
-    @foreach (var p in Model)
-    {
-        <tr>
-            <td>@p.Nombre @p.Apellido</td>
-            <td>@p.Email</td>
-            <td>@p.Telefono</td>
-            <td><a asp-action="Detalle" asp-route-id="@p.Id">Ver detalle</a></td>
-        </tr>
-        
-    }
-</table>
-<p>Total de pacientes: @Model.Count</p>
+@{
+    ViewData["Title"] = "Pacientes";
+}
+<div class="page-card">
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <span class="page-title mb-0">Pacientes registrados</span>
+        <span class="badge-count">@Model.Count pacientes</span>
+    </div>
+    <table class="table">
+        <thead><tr><th>Nombre</th><th>Email</th><th>Teléfono</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.Nombre @p.Apellido</td>
+                    <td>@p.Email</td>
+                    <td>@p.Telefono</td>
+                    <td><a class="btn-ver" asp-action="Detalle" asp-route-id="@p.Id">Ver detalle →</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

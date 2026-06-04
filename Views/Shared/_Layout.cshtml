@@ -1,59 +1,285 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Citas_App</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - CitasMédicas</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Citas_App.styles.css" asp-append-version="true" />
+    <style>
+            body {
+                background-color: #f4f6f9;
+            }
+
+            /* ===== NAVBAR ===== */
+            .navbar-custom {
+                background-color: #1a3a5c;
+            }
+
+                .navbar-custom .navbar-brand,
+                .navbar-custom .nav-link {
+                    color: rgba(255,255,255,0.85);
+                }
+
+                    .navbar-custom .nav-link:hover,
+                    .navbar-custom .nav-link.active {
+                        color: #fff;
+                        background: rgba(255,255,255,0.12);
+                        border-radius: 6px;
+                    }
+
+            /* ===== TARJETA PRINCIPAL ===== */
+            .page-card {
+                background: #fff;
+                border-radius: 12px;
+                border: 1px solid #e8eaf0;
+                padding: 28px;
+                margin-top: 24px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            }
+
+            .page-title {
+                font-size: 22px;
+                font-weight: 600;
+                margin-bottom: 20px;
+            }
+
+            .badge-count {
+                background: #e8f0fe;
+                color: #1a56db;
+                font-size: 12px;
+                padding: 4px 10px;
+                border-radius: 20px;
+                font-weight: 500;
+            }
+
+            /* ===== TABLA ===== */
+            .table thead th {
+                background: #f8f9fb;
+                font-size: 13px;
+                color: #6b7280;
+                font-weight: 500;
+                border-bottom: 1px solid #e8eaf0;
+            }
+
+            .table td {
+                font-size: 14px;
+                vertical-align: middle;
+                border-color: #f0f1f5;
+            }
+
+            .table tbody tr:hover td {
+                background: #f8f9fb;
+            }
+
+            /* ===== BADGES DE ESTADO ===== */
+            .status-confirmada {
+                background: #d1fae5;
+                color: #065f46;
+                padding: 3px 10px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+
+            .status-pendiente {
+                background: #fef3c7;
+                color: #92400e;
+                padding: 3px 10px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+
+            .status-cancelada {
+                background: #fee2e2;
+                color: #991b1b;
+                padding: 3px 10px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+
+            /* ===== STATS ===== */
+            .stat-card {
+                background: #fff;
+                border: 1px solid #e8eaf0;
+                border-radius: 10px;
+                padding: 16px;
+                text-align: center;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+
+            .stat-num {
+                font-size: 28px;
+                font-weight: 600;
+            }
+
+            .stat-label {
+                font-size: 12px;
+                color: #6b7280;
+                margin-top: 4px;
+            }
+
+            /* ===== LINKS ===== */
+            .btn-ver {
+                color: #1a56db;
+                text-decoration: none;
+                font-size: 13px;
+                font-weight: 500;
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                transition: gap 0.15s ease;
+            }
+
+                .btn-ver:hover {
+                    gap: 8px;
+                    color: #1040a0;
+                }
+
+            /* ===== TARJETA DETALLE ===== */
+            .detail-card {
+                background: #fff;
+                border-radius: 14px;
+                border: 1px solid #e8eaf0;
+                padding: 32px;
+                max-width: 520px;
+                margin-top: 24px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            }
+
+            .detail-avatar {
+                width: 56px;
+                height: 56px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #1a3a5c, #2d6a9f);
+                color: #fff;
+                font-size: 20px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+                box-shadow: 0 2px 8px rgba(26,58,92,0.25);
+            }
+
+            .detail-name {
+                font-size: 22px;
+                font-weight: 600;
+                margin-bottom: 20px;
+                color: #111827;
+            }
+
+            .detail-row {
+                display: flex;
+                padding: 12px 0;
+                border-bottom: 1px solid #f0f1f5;
+                font-size: 14px;
+                align-items: center;
+                gap: 8px;
+            }
+
+                .detail-row:last-of-type {
+                    border-bottom: none;
+                }
+
+            .detail-label {
+                color: #6b7280;
+                width: 140px;
+                flex-shrink: 0;
+                font-size: 13px;
+            }
+
+            .detail-value {
+                color: #111827;
+                font-weight: 500;
+            }
+
+            .detail-icon {
+                font-size: 16px;
+            }
+
+            .detail-actions {
+                margin-top: 20px;
+                padding-top: 16px;
+                border-top: 1px solid #f0f1f5;
+                display: flex;
+                gap: 16px;
+                align-items: center;
+            }
+
+            .btn-action {
+                background: #1a3a5c;
+                color: #fff;
+                padding: 8px 18px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-size: 13px;
+                font-weight: 500;
+                transition: background 0.15s;
+            }
+
+                .btn-action:hover {
+                    background: #142d48;
+                    color: #fff;
+                }
+
+            .btn-back {
+                color: #6b7280;
+                text-decoration: none;
+                font-size: 13px;
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+            }
+
+                .btn-back:hover {
+                    color: #111827;
+                }
+
+            /* ===== FOOTER ===== */
+            .footer {
+                text-align: center;
+                padding: 20px;
+                font-size: 13px;
+                color: #9ca3af;
+                margin-top: 32px;
+            }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Citas_App</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Paciente" asp-action="Index">Pacientes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Medico" asp-action="Index">Médicos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Cita" asp-action="Index">Citas</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <nav class="navbar navbar-expand-sm navbar-custom px-4 py-2">
+        <a class="navbar-brand fw-500" asp-controller="Home" asp-action="Index"> CitasMédicas</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav gap-1 ms-2">
+                <li class="nav-item">
+                    <a class="nav-link px-3" asp-controller="Home" asp-action="Index">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" asp-controller="Paciente" asp-action="Index">Pacientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" asp-controller="Medico" asp-action="Index">Médicos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" asp-controller="Cita" asp-action="Index">Citas</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width:960px">
+        <main>@RenderBody()</main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Citas_App - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <div class="footer">© 2026 CitasMédicas</div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
