@@ -21,3 +21,5 @@
         </tr>
     }
 </table>
+<p>Citas pendientes: @Model.Count(c => c.Estado == "Pendiente")</p>
+<p>Citas confirmadas: @Model.Count(c => c.Estado == "Confirmada")</p>

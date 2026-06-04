@@ -10,5 +10,7 @@
             <td>@p.Telefono</td>
             <td><a asp-action="Detalle" asp-route-id="@p.Id">Ver detalle</a></td>
         </tr>
+        
     }
 </table>
+<p>Total de pacientes: @Model.Count</p>
