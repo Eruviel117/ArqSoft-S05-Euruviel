@@ -137,10 +137,36 @@ Para cambiar de adaptador solo se descomenta el bloque correspondiente en `Progr
 
 ---
 
-## Referencias entre proyectos
+## Capturas de pantalla de Paciente, Medico y Citas del Bloque A
 
-| Proyecto | Referencia |
-|---|---|
-| `CitasApp.Domain` | No referencia a nadie (es la base) |
-| `CitasApp.Infrastructure` | Referencia a `CitasApp.Domain` |
-| `CitasApp.Web` | Referencia a `CitasApp.Domain` y `CitasApp.Infrastructure` |
+
+
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183801" src="https://github.com/user-attachments/assets/c5da8449-097a-4359-8b5a-0b4562276821" />
+
+
+
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183806" src="https://github.com/user-attachments/assets/6f46b60f-55bc-4501-b270-6ae1f2011bef" />
+
+
+
+
+<img width="1365" height="756" alt="Captura de pantalla 2026-06-12 183810" src="https://github.com/user-attachments/assets/7681c3d5-4a16-40b8-8089-76685583ad0d" />
+
+
+
+## Capturas de pantalla de Paciente, Medico y Citas del Bloque B
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183707" src="https://github.com/user-attachments/assets/768d6fc1-945e-4136-aaae-f3ce5376e3c6" />
+
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183718" src="https://github.com/user-attachments/assets/64c9384b-0917-46c8-a150-451dcc1fd320" />
+
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183723" src="https://github.com/user-attachments/assets/73489bb8-f93b-440f-aaae-b9e00f119d98" />
