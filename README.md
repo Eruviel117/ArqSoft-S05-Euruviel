@@ -158,3 +158,45 @@ git checkout Api
 ```
 
 ---
+## Capturas de pantalla
+
+
+### API de pacientes, médicos y citas  respondiendo JSON
+
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-16 134133" src="https://github.com/user-attachments/assets/51c9432b-0e0f-4bd1-ba4e-5ee7fc051c77" />
+
+
+### calculadora 
+
+<img width="1363" height="763" alt="Captura de pantalla 2026-06-<img width="1365" height="767" alt="Captura de pantalla 2026-06-17 172919" src="https://github.com/user-attachments/assets/89391277-f502-4c73-b979-403a9528c34d" />
+17 080205" src="https://github.com/user-attachments/assets/453040fe-c6ba-45f1-80cc-cb3af23fb471" />
+
+
+### Calculadora — prueba desde HTML externo
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-17 172919" src="https://github.com/user-attachments/assets/643b75f2-523a-4ab8-be42-bcf71a9ea004" />
+
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-17 172940" src="https://github.com/user-attachments/assets/43cd09b7-e9e0-4618-adfb-f547782c46db" />
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-17 172954" src="https://github.com/user-attachments/assets/2cf54423-7a04-4afb-93a9-05dd40d2c7ef" />
+
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-17 173009" src="https://github.com/user-attachments/assets/edb901b0-48be-4171-ba9f-4369989665d2" />
+
+
+### Citas médicas — prueba desde HTML externo
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-17 173024" src="https://github.com/user-attachments/assets/12dc85d6-5add-4ebb-8fe5-5fb3e03e9df3" />
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-17 173042" src="https://github.com/user-attachments/assets/6f6b6c84-5df5-4659-b5f9-eafd7b85cfd9" />
+
+
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-17 173101" src="https://github.com/user-attachments/assets/19a28e5e-1efa-4939-b252-371c3b47d5f1" />
