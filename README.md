@@ -2,74 +2,76 @@
 - **Arquitectura de Software**
 - **Alumno:** Euruviel Marquez Martinez
 - **Docente:** Jorge Javier Pedrozo Romero
-- **Fecha:** 12/06/2026
-- **Actividad:** Actividad #18 – Práctica .NET: Arquitectura Hexagonal
+- **Fecha:** 26/06/2026
+- **Actividad:** Práctica #26 – Práctica .NET: Implementar en C#
 
 ---
 
 ## Descripción
 
-**CitasMédicas** es una aplicación web desarrollada con **ASP.NET Core MVC** refactorizada a **Arquitectura Hexagonal (Ports & Adapters)**. Permite gestionar un sistema de citas médicas visualizando pacientes registrados, médicos disponibles y la agenda completa de citas.
+**CitasMédicas** es una aplicación web desarrollada con **ASP.NET Core Web API** sobre arquitectura hexagonal, extendida con tres patrones de diseño: **Factory**, **Decorator** y **Observer**.
 
-El proyecto demuestra cómo la arquitectura hexagonal permite **intercambiar la fuente de datos** (JSON, CSV o SQLite) sin modificar los controladores ni el dominio, simplemente cambiando el adaptador activo en `Program.cs`.
+La práctica demuestra cómo estos patrones permiten agregar comportamiento nuevo (logging, selección de repositorio por entorno, notificaciones) **sin modificar el código existente**, cumpliendo con el principio Open/Closed de SOLID.
 
 ---
 
+
 ## Arquitectura
 
-El proyecto sigue una estructura **hexagonal multi-proyecto**:
+El proyecto sigue una estructura **hexagonal multi-proyecto** con cinco capas:
 
 
-```
-CitasApp.sln
-├── CitasApp.Domain/
-│   ├── Models/
-│   │   ├── Paciente.cs
-│   │   ├── Medico.cs
-│   │   ├── Cita.cs
-│   │   └── CitaJson.cs
-│   └── Interfaces/
-│       ├── IPacienteRepository.cs
-│       ├── IMedicoRepository.cs
-│       └── ICitaRepository.cs
-│
-├── CitasApp.Infrastructure/
-│   └── Repositories/
-│       ├── JsonPacienteRepository.cs
-│       ├── JsonMedicoRepository.cs
-│       ├── JsonCitaRepository.cs
-│       ├── CsvPacienteRepository.cs
-│       ├── CsvMedicoRepository.cs
-│       ├── CsvCitaRepository.cs
-│       ├── SqlitePacienteRepository.cs
-│       ├── SqliteMedicoRepository.cs
-│       └── SqliteCitaRepository.cs
-│
-└── CitasApp.Web/
-    ├── Controllers/
-    │   ├── HomeController.cs
-    │   ├── PacienteController.cs
-    │   ├── MedicoController.cs
-    │   └── CitaController.cs
-    ├── Views/
-    │   ├── Paciente/
-    │   │   ├── Index.cshtml
-    │   │   └── Detalle.cshtml
-    │   ├── Medico/
-    │   │   ├── Index.cshtml
-    │   │   └── Detalle.cshtml
-    │   └── Cita/
-    │       ├── Index.cshtml
-    │       └── PorPaciente.cshtml
-    └── data/
-        ├── pacientes.json
-        ├── medicos.json
-        ├── citas.json
-        ├── pacientes.csv
-        ├── medicos.csv
-        ├── citas.csv
-        └── citasapp.db
-```
+    CitasApp.sln
+    ├── CitasApp.Domain/
+    │   ├── Models/
+    │   │   ├── Paciente.cs
+    │   │   ├── Medico.cs
+    │   │   ├── Cita.cs
+    │   │   └── CitaJson.cs
+    │   └── Interfaces/
+    │       ├── IPacienteRepository.cs
+    │       ├── IMedicoRepository.cs
+    │       ├── ICitaRepository.cs
+    │       └── ICitaObserver.cs
+    │
+    ├── CitasApp.Infrastructure/
+    │   ├── Repositories/
+    │   │   ├── JsonPacienteRepository.cs
+    │   │   ├── MemoriaPacienteRepository.cs
+    │   │   ├── LoggingPacienteRepository.cs
+    │   │   └── RepositoryFactory.cs
+    │   └── Observers/
+    │       ├── SmsObserver.cs
+    │       └── EmailObserver.cs
+    │
+    ├── CitasApp.Application/
+    │   └── Services/
+    │       ├── PacienteService.cs
+    │       ├── MedicoService.cs
+    │       └── CitaService.cs
+    │
+    ├── CitasApp.Web/
+    │
+    └── CitasApp.Api/
+        ├── Controllers/
+        │   ├── PacientesController.cs
+        │   ├── MedicosController.cs
+        │   ├── CitasController.cs
+        │   └── CalculadoraController.cs
+        ├── data/
+        └── Program.cs
+
+
+
+---
+
+## Patrones implementados
+
+| Patrón | Clase | Descripción |
+|---|---|---|
+| **Factory** | `RepositoryFactory` | Decide qué repositorio crear según el entorno (Development → JSON, Production → Memoria) |
+| **Decorator** | `LoggingPacienteRepository` | Envuelve cualquier repositorio agregando logs en consola sin modificarlo |
+| **Observer** | `SmsObserver`, `EmailObserver` | Se notifican automáticamente al confirmar una cita, sin que `CitaService` los conozca directamente |
 
 ---
 
@@ -77,13 +79,17 @@ CitasApp.sln
 
 | Funcionalidad | Descripción |
 |---|---|
-| Lista de pacientes | Tabla con nombre, email y teléfono de cada paciente |
-| Detalle de paciente | Información completa con link a sus citas |
-| Lista de médicos | Tabla con nombre, especialidad y número de licencia |
-| Detalle de médico | Información completa del médico |
-| Agenda de citas | Tabla con fecha, hora, paciente, médico, motivo y estado |
-| Citas por paciente | Filtro de citas de un paciente específico |
-| Intercambio de adaptador | Cambio de fuente de datos sin modificar controllers ni dominio |
+| GET /api/pacientes | Retorna la lista de pacientes en JSON + logs del Decorator en consola |
+| GET /api/pacientes/{id} | Retorna el detalle de un paciente + logs del Decorator en consola |
+| GET /api/medicos | Retorna la lista completa de médicos en JSON |
+| GET /api/medicos/{id} | Retorna el detalle de un médico por ID |
+| GET /api/citas | Retorna la agenda completa de citas en JSON |
+| GET /api/citas/porpaciente/{id} | Retorna las citas de un paciente específico |
+| POST /api/citas/confirmar/{id} | Confirma una cita y dispara notificaciones SMS y EMAIL en consola |
+| GET /api/calculadora/sumar | Suma dos números y retorna resultado en JSON |
+| GET /api/calculadora/restar | Resta dos números y retorna resultado en JSON |
+| GET /api/calculadora/multiplicar | Multiplica dos números y retorna resultado en JSON |
+| GET /api/calculadora/dividir | Divide dos números (valida división entre cero) |
 
 ---
 
@@ -92,38 +98,10 @@ CitasApp.sln
 | Tecnología | Versión | Uso |
 |---|---|---|
 | C# | 13 | Lenguaje principal |
-| ASP.NET Core MVC | .NET 10 | Framework web |
-| JSON | — | Adaptador de persistencia A |
-| CSV | — | Adaptador de persistencia B |
-| SQLite | 10.0.9 | Adaptador de persistencia C |
-| Git + GitHub | — | Control de versiones |
-
----
-
-## Adaptadores de datos
-
-El sistema soporta 3 fuentes de datos intercambiables desde `Program.cs`:
-
-| Bloque | Adaptador | Archivos |
-|---|---|---|
-| Bloque A | JSON | `pacientes.json`, `medicos.json`, `citas.json` |
-| Bloque B | CSV | `pacientes.csv`, `medicos.csv`, `citas.csv` |
-| Bloque C | SQLite | `citasapp.db` |
-
-Para cambiar de adaptador solo se descomenta el bloque correspondiente en `Program.cs`. **Los controllers y el dominio nunca cambian.**
-
----
-
-## Patrones y principios aplicados
-
-| Principio | Aplicación |
-|---|---|
-| **Arquitectura Hexagonal** | Domain, Infrastructure y Web separados en proyectos independientes |
-| **Ports & Adapters** | Las interfaces son los puertos; los repositorios JSON/CSV/SQLite son los adaptadores |
-| **Patrón Repositorio** | Interfaces `IPacienteRepository`, `IMedicoRepository`, `ICitaRepository` desacoplan el acceso a datos |
-| **Inyección de dependencias** | Repositorios registrados en `Program.cs` como `AddScoped` |
-| **SRP** — Single Responsibility | Cada controller maneja una sola entidad |
-| **DIP** — Dependency Inversion | Los controllers dependen de interfaces, no de implementaciones concretas |
+| ASP.NET Core Web API | .NET 10 | Framework REST |
+| JSON | — | Adaptador de persistencia activo (Development) |
+| Memoria | — | Adaptador de persistencia simulado (Production) |
+| GitHub | — | Control de versiones |
 
 ---
 
@@ -131,42 +109,31 @@ Para cambiar de adaptador solo se descomenta el bloque correspondiente en `Progr
 
 | Vista | Descripción |
 |---|---|
-| **Lógica** | Módulos: Gestión de Pacientes, Gestión de Médicos, Gestión de Citas |
-| **Desarrollo** | Tres proyectos: Domain (modelos e interfaces), Infrastructure (repositorios), Web (controllers y vistas) |
-| **Procesos** | Petición HTTP → Controller → Interface (Port) → Repositorio (Adapter) → Fuente de datos → View |
+| **Lógica** | Módulos: Gestión de Pacientes (con Factory + Decorator), Gestión de Citas (con Observer) |
+| **Desarrollo** | Cinco proyectos: Domain, Application, Infrastructure, Web y Api |
+| **Procesos** | Petición HTTP → Controller → Service → LoggingDecorator → Factory → Repositorio → JSON/Memoria |
 
 ---
 
-## Capturas de pantalla de Paciente, Medico y Citas del Bloque A
+## Capturas de pantalla
 
 
 
 
 
-<img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183801" src="https://github.com/user-attachments/assets/c5da8449-097a-4359-8b5a-0b4562276821" />
+
+<img width="1365" height="763" alt="Captura de pantalla 2026-06-23 184319" src="https://github.com/user-attachments/assets/31622ccb-19de-4eaa-be78-3197962e8e03" />
+
+
+<img width="1365" height="766" alt="Captura de pantalla 2026-06-23 202916" src="https://github.com/user-attachments/assets/eca74938-d9aa-4782-a10f-54058f193167" />
 
 
 
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-23 205715" src="https://github.com/user-attachments/assets/56bce650-1f16-4a55-9164-f6638012034e" />
 
 
-<img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183806" src="https://github.com/user-attachments/assets/6f46b60f-55bc-4501-b270-6ae1f2011bef" />
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-23 210124" src="https://github.com/user-attachments/assets/545653e1-c09a-418a-ad58-7194aa53b89e" />
 
 
+<img width="1365" height="767" alt="Captura de pantalla 2026-06-23 205613" src="https://github.com/user-attachments/assets/d75ceeb8-5d24-4f17-9a56-48acfa51ec7b" />
 
-
-<img width="1365" height="756" alt="Captura de pantalla 2026-06-12 183810" src="https://github.com/user-attachments/assets/7681c3d5-4a16-40b8-8089-76685583ad0d" />
-
-
-
-## Capturas de pantalla de Paciente, Medico y Citas del Bloque B
-
-
-<img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183707" src="https://github.com/user-attachments/assets/768d6fc1-945e-4136-aaae-f3ce5376e3c6" />
-
-
-
-<img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183718" src="https://github.com/user-attachments/assets/64c9384b-0917-46c8-a150-451dcc1fd320" />
-
-
-
-<img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183723" src="https://github.com/user-attachments/assets/73489bb8-f93b-440f-aaae-b9e00f119d98" />
