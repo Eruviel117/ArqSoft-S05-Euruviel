@@ -2,8 +2,8 @@
 - **Arquitectura de Software**
 - **Alumno:** Euruviel Marquez Martinez
 - **Docente:** Jorge Javier Pedrozo Romero
-- **Fecha:** 12/06/2026
-- **Actividad:** Actividad #18 – Práctica .NET: Arquitectura Hexagonal
+- **Fecha:** 07/07/2026
+- **Actividad:** Actividad #29 – Práctica .NET: Diagramas como código
 
 ---
 
@@ -185,4 +185,3 @@ Incluye:
 - C4 Nivel 1 — Contexto del sistema
 - C4 Nivel 2 — Contenedores
 - C4 Nivel 3 — Componentes dentro de CitasApp.Api
-- Diagrama de secuencia — Confirmar una cita
