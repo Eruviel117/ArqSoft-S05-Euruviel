@@ -170,3 +170,19 @@ Para cambiar de adaptador solo se descomenta el bloque correspondiente en `Progr
 
 
 <img width="1365" height="767" alt="Captura de pantalla 2026-06-12 183723" src="https://github.com/user-attachments/assets/73489bb8-f93b-440f-aaae-b9e00f119d98" />
+
+
+---
+
+## Diagramas de arquitectura
+
+Los diagramas UML y C4 del proyecto están documentados como código Mermaid en:
+
+ [Ver diagramas de arquitectura](arquitectura.md)
+
+Incluye:
+- Diagrama de clases — Paciente, Medico, Cita, interfaces y patrones GoF
+- C4 Nivel 1 — Contexto del sistema
+- C4 Nivel 2 — Contenedores
+- C4 Nivel 3 — Componentes dentro de CitasApp.Api
+- Diagrama de secuencia — Confirmar una cita
