@@ -2,8 +2,8 @@
 - **Arquitectura de Software**
 - **Alumno:** Euruviel Marquez Martinez
 - **Docente:** Jorge Javier Pedrozo Romero
-- **Fecha:** 07/07/2026
-- **Actividad:** Actividad #29 – Práctica .NET: Diagramas como código
+- **Fecha:** 14/07/2026
+- **Actividad:** Actividad #32 – Práctica .NET: Detectar code smells y refactorizar
 
 ---
 
@@ -185,3 +185,20 @@ Incluye:
 - C4 Nivel 1 — Contexto del sistema
 - C4 Nivel 2 — Contenedores
 - C4 Nivel 3 — Componentes dentro de CitasApp.Api
+
+
+
+---
+
+## Actividad #32 — Code smells y refactorización
+
+**Objetivo:** detectar code smells reales en el proyecto y corregirlos aplicando una técnica de refactorización, sin cambiar el comportamiento del sistema.
+
+| Code smell | Dónde | Técnica aplicada |
+|---|---|---|
+| God Class (tendencia) | `CitaService` validaba pacientes y médicos directamente, responsabilidad que ya pertenecía a `PacienteService`/`MedicoService` | Dependency Injection |
+| Tight Coupling | `CitaService` dependía de `IPacienteRepository` e `IMedicoRepository` completos solo para reusar `ObtenerPorId` | Dependency Injection |
+
+`CitaService` ahora recibe `PacienteService` y `MedicoService` inyectados en vez de los repositorios crudos. El comportamiento de los endpoints (`GET /api/citas`, `GET /api/citas/porpaciente/{id}`, `POST /api/citas/confirmar/{id}`) es idéntico al de antes del cambio.
+
+Detalle completo del análisis: [docs/code-smells.md](docs/code-smells.md)
