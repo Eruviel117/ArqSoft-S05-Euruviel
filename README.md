@@ -179,9 +179,3 @@ Para cambiar de adaptador solo se descomenta el bloque correspondiente en `Progr
 Los diagramas UML y C4 del proyecto están documentados como código Mermaid en:
 
  [Ver diagramas de arquitectura](arquitectura.md)
-
-Incluye:
-- Diagrama de clases — Paciente, Medico, Cita, interfaces y patrones GoF
-- C4 Nivel 1 — Contexto del sistema
-- C4 Nivel 2 — Contenedores
-- C4 Nivel 3 — Componentes dentro de CitasApp.Api
