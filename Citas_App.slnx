@@ -1,3 +1,11 @@
 <Solution>
+  <Folder Name="/docs/">
+    <File Path="arquitectura.md" />
+  </Folder>
+  <Project Path="../CitasApp.Api/CitasApp.Api.csproj" Id="2f41e41a-87ea-4ee3-8ab3-5513ec3c27f9" />
+  <Project Path="../CitasApp.Application/CitasApp.Application.csproj" Id="456485d8-c4ec-4a26-8c89-10eae65f1efc" />
+  <Project Path="../CitasApp.Domain/CitasApp.Domain.csproj" />
+  <Project Path="../CitasApp.Infrastructure/CitasApp.Infrastructure.csproj" />
+  <Project Path="../CitasApp.Web/CitasApp.Web.csproj" />
   <Project Path="Citas_App.csproj" />
 </Solution>
