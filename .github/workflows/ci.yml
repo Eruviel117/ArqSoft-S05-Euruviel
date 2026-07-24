@@ -20,5 +20,4 @@ jobs:
         run: dotnet build Citas_App.csproj --no-restore
 
       - name: Correr pruebas
-        run: dotnet test --no-build
-
+        run: dotnet test Citas_App.csproj --no-build
