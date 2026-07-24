@@ -1,0 +1,23 @@
+name: CI 
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+          
+      - name: Restaurar
+        run: dotnet restore Citas_App.csproj
+
+      - name: Compilar
+        run: dotnet build Citas_App.csproj --no-restore
+
+      - name: Correr pruebas
+        run: dotnet test Citas_App.csproj --no-build
