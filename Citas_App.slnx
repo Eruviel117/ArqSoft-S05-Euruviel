@@ -7,5 +7,6 @@
   <Project Path="../CitasApp.Domain/CitasApp.Domain.csproj" />
   <Project Path="../CitasApp.Infrastructure/CitasApp.Infrastructure.csproj" />
   <Project Path="../CitasApp.Web/CitasApp.Web.csproj" />
+  <Project Path="../CitasApp.xUnit/CitasApp.xUnit.csproj" Id="7021a268-4a03-41df-936c-1e5918ce93f3" />
   <Project Path="Citas_App.csproj" />
 </Solution>
